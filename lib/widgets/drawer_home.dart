@@ -22,7 +22,7 @@ class DrawerHome extends StatelessWidget {
                 ),
                 const SizedBox(height: 30),
                 Text(
-                  'Bee Alive',
+                  'Bee-Alive',
                   style: GoogleFonts.libreBaskerville(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/splash/splash_page.dart';
 
-import 'pages/home/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Bee-Alive',
-      home: HomeScreen(),
+      home: Splashscreen(),
     );
   }
 }
