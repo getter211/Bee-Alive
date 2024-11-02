@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CaptureButton extends StatelessWidget {
   const CaptureButton({super.key});
@@ -6,18 +7,19 @@ class CaptureButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        // Lógica de captura
-      },
+      onPressed: () {},
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xFFB27C34),
         shape: const CircleBorder(),
-        padding: const EdgeInsets.symmetric(
-            horizontal: 100, vertical: 100),
+        padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 100),
       ),
-      child: const Text(
-        'Capturar Datos',
-        style: TextStyle(color: Color(0xFFEDDA6F), fontSize: 20),
+      child: Text(
+        'Obtener Datos',
+        style: GoogleFonts.poppins(
+          fontSize: 25,
+          color: const Color(0xFFEDDA6F),
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
