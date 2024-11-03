@@ -1,6 +1,6 @@
 import 'dart:async'; // Importa dart:async para usar Timer
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pages/home/home_page.dart';
+import '../login/login_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Splashscreen extends StatefulWidget {
@@ -25,7 +25,7 @@ class _SplashscreenState extends State<Splashscreen> {
     Timer(const Duration(seconds: 4), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
       );
     });
   }
