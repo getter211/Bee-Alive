@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/data_history/data_history_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../pages/presentation/presentation_page.dart';
+
 class DrawerHome extends StatelessWidget {
   const DrawerHome({super.key});
 
@@ -67,7 +69,11 @@ class DrawerHome extends StatelessWidget {
                 Icons.info_outline,
                 color: Colors.brown,
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const PresentationScreen();
+                }));
+              },
             ),
           ],
         ),

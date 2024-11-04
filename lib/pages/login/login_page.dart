@@ -2,34 +2,16 @@ import 'package:flutter/material.dart';
 import '../register/register_page.dart';
 import 'package:flutter_application_1/pages/home/home_page.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Bee-Alive',
-      theme: ThemeData(
-        primaryColor: Colors.brown,
-        fontFamily: 'Arial',
-      ),
-      home: const LoginPage(),
-    );
-  }
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
+class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   bool _isPasswordVisible = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,14 +23,12 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               Container(
-                padding: const EdgeInsets.only(top: 35), // Añade un margen superior a toda la columna
-                child: Column(
+                padding: const EdgeInsets.only(top: 35),
+                child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Título "Iniciar sesión"
-                    const Text(
+                    Text(
                       'Iniciar sesión',
                       style: TextStyle(
                         fontSize: 28,
@@ -56,27 +36,18 @@ class _LoginPageState extends State<LoginPage> {
                         color: Colors.brown,
                       ),
                     ),
-                    
-                    // Separador entre título y subtítulo
-                    const SizedBox(height: 8),
-
-                    // Subtítulo
-                    const Text(
+                    SizedBox(height: 8),
+                    Text(
                       'Sea usted bienvenido.',
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.brown,
                       ),
                     ),
-
-                    // Separador entre subtítulo y formulario
-                    const SizedBox(height: 24),
-                    
-                    // Aquí puedes continuar agregando más widgets, como el formulario, etc.
+                    SizedBox(height: 24),
                   ],
                 ),
               ),
-
               const SizedBox(height: 35),
               // Formulario
               Form(
@@ -101,11 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                         return null;
                       },
                     ),
-
-                    // Separador entre campos de texto
                     const SizedBox(height: 35),
-
-                    // Campo de contraseña
                     TextFormField(
                       decoration: InputDecoration(
                         labelText: 'Contraseña',
@@ -135,25 +102,21 @@ class _LoginPageState extends State<LoginPage> {
                         return null;
                       },
                     ),
-
-                    // Separador entre el campo de contraseña y el botón de inicio de sesión
                     const SizedBox(height: 35),
-
-                    // Botón de inicio de sesión
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                           if (_formKey.currentState?.validate() == true) {
-                        //  Lógica de autenticación
-                          }
-                            Navigator.push(
+                          if (_formKey.currentState?.validate() == true) {
+                            Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => const HomeScreen()),
+                              MaterialPageRoute(
+                                  builder: (context) => const HomeScreen()),
                             );
-                          },
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFFB27C34),
+                          backgroundColor: const Color(0xFFB27C34),
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -165,11 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
-
-                    // Separador entre el botón y el texto de registro
                     const SizedBox(height: 16),
-
-                    // Texto de registro
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -179,9 +138,10 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         TextButton(
                           onPressed: () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => const RegisterPage()),
+                              MaterialPageRoute(
+                                  builder: (context) => const RegisterScreen()),
                             );
                           },
                           child: const Text(

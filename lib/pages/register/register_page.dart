@@ -1,31 +1,15 @@
 import 'package:flutter/material.dart';
+import '../home/home_page.dart';
 import '../login/login_page.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Bee-Alive',
-      theme: ThemeData(
-        primaryColor: Colors.brown,
-        fontFamily: 'Arial',
-      ),
-      home: const RegisterPage(),
-    );
-  }
+  State<RegisterScreen> createState() => _RegisterPageState();
 }
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
-
-  @override
-  State<RegisterPage> createState() => _RegisterPageState();
-}
-
-class _RegisterPageState extends State<RegisterPage> {
+class _RegisterPageState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   bool _isPasswordVisible = false;
 
@@ -41,12 +25,13 @@ class _RegisterPageState extends State<RegisterPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                padding: const EdgeInsets.only(top: 35), // Añade un margen superior a toda la columna
-                child: Column(
+                padding: const EdgeInsets.only(
+                    top: 35), // Añade un margen superior a toda la columna
+                child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Título "Iniciar sesión"
-                    const Text(
+                    Text(
                       'Registrate',
                       style: TextStyle(
                         fontSize: 28,
@@ -54,12 +39,12 @@ class _RegisterPageState extends State<RegisterPage> {
                         color: Colors.brown,
                       ),
                     ),
-                    
+
                     // Separador entre título y subtítulo
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
 
                     // Subtítulo
-                    const Text(
+                    Text(
                       '¡Regístrate  para ser parte de nosotros!',
                       style: TextStyle(
                         fontSize: 16,
@@ -68,8 +53,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
 
                     // Separador entre subtítulo y formulario
-                    const SizedBox(height: 24),
-                    
+                    SizedBox(height: 24),
+
                     // Aquí puedes continuar agregando más widgets, como el formulario, etc.
                   ],
                 ),
@@ -151,11 +136,15 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState?.validate() == true) {
-                            // Lógica de autenticación
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const HomeScreen()),
+                            );
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFFB27C34),
+                          backgroundColor: const Color(0xFFB27C34),
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -175,21 +164,22 @@ class _RegisterPageState extends State<RegisterPage> {
                           'Ya estoy registrado',
                           style: TextStyle(color: Colors.brown),
                         ),
-                                          TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const LoginPage()),
-                      );
-                    },
-                    child: const Text(
-                      'Iniciar sesión',
-                      style: TextStyle(
-                        color: Colors.purple,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginScreen()),
+                            );
+                          },
+                          child: const Text(
+                            'Iniciar sesión',
+                            style: TextStyle(
+                              color: Colors.purple,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ],

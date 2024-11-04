@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/login/login_page.dart';
 import '../../widgets/home_widgets/capture_button.dart';
 import '../../widgets/home_widgets/drawer_home.dart';
 import '../../widgets/home_widgets/sensor_data_display.dart';
@@ -21,7 +22,12 @@ class HomeScreen extends StatelessWidget {
               Icons.logout,
               color: Colors.brown,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+              );
+            },
           ),
           const SizedBox(width: 20),
         ],
