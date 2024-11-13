@@ -48,13 +48,13 @@ class DataHistoryScreen extends StatelessWidget {
             const SizedBox(height: 10),
             Expanded(
               child: ListView.builder(
-                itemCount: 4,
+                itemCount: 1,
                 itemBuilder: (context, index) {
                   return const Column(
                     children: [
                       HistorialCard(
-                        semana: 'Semana',
-                        anio: '2022',
+                        semana: '1',
+                        anio: '2024',
                       ),
                       SizedBox(height: 16),
                     ],

@@ -1,4 +1,4 @@
-package com.example.bee_alive
+package com.bee-alive.tilines
 
 import io.flutter.embedding.android.FlutterActivity
 

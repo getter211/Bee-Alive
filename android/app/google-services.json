@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1065897214692",
+    "firebase_url": "https://bee-alive-default-rtdb.firebaseio.com",
+    "project_id": "bee-alive",
+    "storage_bucket": "bee-alive.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1065897214692:android:b627af7d899325272ea2f1",
+        "android_client_info": {
+          "package_name": "com.beealive.tilines"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1065897214692-6oh4kleoe96k78g2lnio8b68072mpvie.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4rv82bqLAAoMHsB8NteIRqWMAjEYJDLo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1065897214692-6oh4kleoe96k78g2lnio8b68072mpvie.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

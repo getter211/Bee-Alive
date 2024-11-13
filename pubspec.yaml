@@ -38,6 +38,9 @@ dependencies:
   google_fonts: ^6.1.0
   fl_chart: ^0.69.0
   flutter_native_splash: ^2.4.2
+  firebase_core: ^3.7.0
+  firebase_auth: ^5.3.2
+  provider: ^6.1.2
   
 
 dev_dependencies:
@@ -51,6 +54,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
   flutter_launcher_icons: ^0.14.1
+  change_app_package_name: ^1.4.0
 
 flutter_launcher_icons:
   android: "launcher_icon"

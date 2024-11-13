@@ -61,12 +61,12 @@ class HomeScreen extends StatelessWidget {
                       SensorDataDisplay(
                         icon: Icons.thermostat_outlined,
                         label: 'Temperatura',
-                        value: '00',
+                        value: '29°',
                       ),
                       SensorDataDisplay(
                         icon: Icons.water_drop_outlined,
                         label: 'Humedad',
-                        value: '00',
+                        value: '79',
                       ),
                     ],
                   ),
