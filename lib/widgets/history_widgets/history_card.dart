@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/chart/charts_page.dart';
 
 class HistorialCard extends StatelessWidget {
-  final String semana;
-  final String anio;
+  final String semana; // Fecha
+  final String hora; // Hora
   final IconData icono;
 
   const HistorialCard({
     super.key,
     required this.semana,
-    required this.anio,
+    required this.hora,
     this.icono = Icons.remove_red_eye_outlined,
   });
 
@@ -22,11 +22,11 @@ class HistorialCard extends StatelessWidget {
       ),
       child: ListTile(
         title: Text(
-          "Semana: $semana", 
+          "Fecha de la semana: $semana", // Displaying the date
           style: const TextStyle(color: Color(0xFFEDDA6F)),
         ),
         subtitle: Text(
-          "Año: $anio",
+          "Hora: $hora", // Displaying the time
           style: const TextStyle(color: Color(0xFFEDDA6F)),
         ),
         trailing: Icon(

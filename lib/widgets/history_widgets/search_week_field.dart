@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SearchWeekWidget extends StatelessWidget {
+class SearchWeekWidget extends StatefulWidget {
   final TextEditingController controller;
+  final Function(DateTime) onDateSelected;
 
   const SearchWeekWidget({
     super.key,
     required this.controller,
+    required this.onDateSelected,
   });
 
+  @override
+  _SearchWeekWidgetState createState() => _SearchWeekWidgetState();
+}
+
+class _SearchWeekWidgetState extends State<SearchWeekWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,7 +24,7 @@ class SearchWeekWidget extends StatelessWidget {
         maxWidth: 400,
       ),
       child: TextField(
-        controller: controller,
+        controller: widget.controller, // Usamos el controlador pasado
         readOnly: true,
         decoration: InputDecoration(
           hintText: "¡Elije la fecha!",
@@ -39,10 +46,10 @@ class SearchWeekWidget extends StatelessWidget {
                 firstDate: DateTime(2000),
                 lastDate: DateTime(2100),
               );
-
               if (selectedDate != null) {
-                controller.text =
+                widget.controller.text =
                     "Semana del ${selectedDate.day}/${selectedDate.month}/${selectedDate.year}";
+                widget.onDateSelected(selectedDate);
               }
             },
           ),

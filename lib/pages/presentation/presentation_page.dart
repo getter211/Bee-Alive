@@ -5,6 +5,10 @@ class PresentationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Obtener el ancho y alto de la pantalla
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: const Color(0xFFFDF2CF),
       appBar: AppBar(
@@ -26,31 +30,42 @@ class PresentationScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 50),
+              SizedBox(
+                  height: screenHeight * 0.1), // Ajuste dinámico del espaciado
               Image.asset(
                 'assets/images/logo.png',
-                width: 150,
-                height: 100,
+                width: screenWidth * 0.4, // Hace la imagen más responsive
+                height: screenHeight * 0.2, // Ajuste dinámico de la altura
               ),
-              const SizedBox(height: 30),
-              const Text(
+              SizedBox(height: screenHeight * 0.05), // Espaciado más flexible
+              Text(
                 'Bee Alive',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: screenWidth * 0.08, // Hacer el texto más responsive
                   fontWeight: FontWeight.bold,
                   color: Colors.brown,
                 ),
               ),
-              const SizedBox(height: 20),
-              const Text(
+              SizedBox(height: screenHeight * 0.03), // Ajustar espaciado
+              Text(
                 'Bee Alive es una aplicación dedicada a la preservación de las abejas y la concientización sobre su importancia en nuestro ecosistema.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: screenWidth *
+                      0.05, // Hacer el texto más pequeño en pantallas pequeñas
                   color: Colors.brown,
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: screenHeight * 0.30),
+              Text(
+                'Copyright © Bee alive 2024  ',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: screenWidth *
+                      0.05, // Hacer el texto más pequeño en pantallas pequeñas
+                  color: Colors.brown,
+                ),
+              ),
             ],
           ),
         ),

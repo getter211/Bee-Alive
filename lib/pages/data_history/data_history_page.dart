@@ -2,9 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/widgets/history_widgets/history_card.dart';
 import 'package:flutter_application_1/widgets/history_widgets/search_week_field.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
-class DataHistoryScreen extends StatelessWidget {
+import '../../utils/sensor_data_utils.dart'; // Import for loading sensor data
+
+class DataHistoryScreen extends StatefulWidget {
   const DataHistoryScreen({super.key});
+
+  @override
+  _DataHistoryScreenState createState() => _DataHistoryScreenState();
+}
+
+class _DataHistoryScreenState extends State<DataHistoryScreen> {
+  DateTime? selectedDate;
+
+  // Método para obtener el inicio de la semana para la fecha seleccionada
+  DateTime getStartOfWeek(DateTime date) {
+    int dayOfWeek = date.weekday;
+    DateTime startOfWeek = date.subtract(Duration(days: dayOfWeek - 1));
+    return DateTime(startOfWeek.year, startOfWeek.month, startOfWeek.day);
+  }
+
+  // Filtrar los datos por la semana
+  List<Map<String, String>> filterDataByWeek(
+      List<Map<String, String>> sensorData, DateTime selectedDate) {
+    DateTime startOfSelectedWeek = getStartOfWeek(selectedDate);
+
+    return sensorData.where((data) {
+      String dateTime = data['date'] ?? '';
+      DateTime parsedDate = DateFormat('dd/MM/yyyy HH:mm').parse(dateTime);
+      DateTime startOfDataWeek = getStartOfWeek(parsedDate);
+
+      // Comparar solo la semana (inicio de la semana)
+      return startOfDataWeek.isAtSameMomentAs(startOfSelectedWeek);
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +63,11 @@ class DataHistoryScreen extends StatelessWidget {
               width: double.infinity,
               child: SearchWeekWidget(
                 controller: TextEditingController(),
+                onDateSelected: (DateTime date) {
+                  setState(() {
+                    selectedDate = date; // Actualizar la fecha seleccionada
+                  });
+                },
               ),
             ),
             const SizedBox(height: 20),
@@ -47,17 +84,58 @@ class DataHistoryScreen extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Expanded(
-              child: ListView.builder(
-                itemCount: 4,
-                itemBuilder: (context, index) {
-                  return const Column(
-                    children: [
-                      HistorialCard(
-                        semana: 'Semana',
-                        anio: '2022',
-                      ),
-                      SizedBox(height: 16),
-                    ],
+              child: FutureBuilder<List<Map<String, String>>>(
+                future:
+                    loadSensorDataFromPreferences(), // Cargar los datos de los sensores
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error al cargar los datos.'));
+                  }
+
+                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Center(child: Text('No hay datos disponibles.'));
+                  }
+
+                  List<Map<String, String>> sensorData = snapshot.data!;
+                  List<Map<String, String>> filteredData = sensorData;
+
+                  // Si se seleccionó una fecha, filtrar los datos por la semana
+                  if (selectedDate != null) {
+                    filteredData = filterDataByWeek(sensorData, selectedDate!);
+                  }
+
+                  if (filteredData.isEmpty) {
+                    return Center(child: Text('No hay semana de monitorización.'));
+                  }
+
+                  return ListView.builder(
+                    itemCount: filteredData.length,
+                    itemBuilder: (context, index) {
+                      Map<String, String> data = filteredData[index];
+
+                      // Extraer fecha y hora
+                      String dateTime = data['date'] ?? '';
+                      DateTime parsedDate =
+                          DateFormat('dd/MM/yyyy HH:mm').parse(dateTime);
+                      String formattedDate =
+                          DateFormat('dd/MM/yyyy').format(parsedDate); // Solo fecha
+                      String formattedTime =
+                          DateFormat('HH:mm').format(parsedDate); // Solo hora
+
+                      return Column(
+                        children: [
+                          HistorialCard(
+                            semana: formattedDate,
+                            hora: formattedTime,
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+                      );
+                    },
                   );
                 },
               ),

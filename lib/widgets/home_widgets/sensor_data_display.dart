@@ -19,8 +19,7 @@ class SensorDataDisplay extends StatelessWidget {
       children: [
         Icon(icon, size: 50, color: Colors.brown),
         const SizedBox(height: 8),
-        Text(label,
-            style: GoogleFonts.poppins(fontSize: 16, color: Colors.brown)),
+        Text(label, style: GoogleFonts.poppins(fontSize: 16, color: Colors.brown)),
         const SizedBox(height: 4),
         Text(
           value,
