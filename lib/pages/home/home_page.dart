@@ -100,8 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(Icons.delete_outlined, color: Colors.brown),
             onPressed: () {
-              if (_sensorData.isEmpty) {
-                // Mostrar un diálogo indicando que no hay datos
+              if (_sensorData.isEmpty) {              
                 showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
@@ -128,7 +127,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               } else {
-                // Llama al diálogo de confirmación si hay datos
                 _showDeleteConfirmationDialog();
               }
             },
@@ -198,10 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           const SizedBox(height: 70),
                           ElevatedButton(
                             onPressed: () async {
-                              // Guarda los datos en SharedPreferences
                               await saveSensorDataToPreferences(_sensorData);
-
-                              // Muestra un diálogo de confirmación
                               showDialog(
                                 // ignore: use_build_context_synchronously
                                 context: context,
@@ -245,8 +240,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               // Cargar los datos guardados
                               List<Map<String, String>> savedData =
                                   await loadSensorDataFromPreferences();
-
-                              // Mostrar los datos en un dialog o imprimir en consola
                               showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(

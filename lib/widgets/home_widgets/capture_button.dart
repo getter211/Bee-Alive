@@ -16,22 +16,22 @@ class CaptureButton extends StatelessWidget {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         foregroundColor: const Color(0xFFEDDA6F),
-        backgroundColor: const Color(0xFFB27C34), // Color de texto
+        backgroundColor: const Color(0xFFB27C34), 
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30), // Bordes redondeados
+          borderRadius: BorderRadius.circular(30), 
         ),
         padding: const EdgeInsets.symmetric(
-            vertical: 15, horizontal: 30), // Espaciado
-        elevation: 5, // Sombra para el botón
-        shadowColor: Colors.black.withOpacity(0.2), // Color de la sombra
-        splashFactory: InkRipple.splashFactory, // Efecto de toque
+            vertical: 15, horizontal: 30), 
+        elevation: 5,
+        shadowColor: Colors.black.withOpacity(0.2), 
+        splashFactory: InkRipple.splashFactory, 
       ),
       child: Text(
         'Importar archivo',
         style: GoogleFonts.poppins(
-          fontSize: 16, // Ajuste de tamaño de texto
+          fontSize: 16,
           fontWeight: FontWeight.bold,
-          color: Color(0xFFEDDA6F), // Color del texto
+          color: const Color(0xFFEDDA6F), 
         ),
       ),
     );

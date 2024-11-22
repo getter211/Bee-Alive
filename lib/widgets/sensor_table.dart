@@ -34,7 +34,6 @@ class _SensorTableState extends State<SensorTable> {
 
     return Column(
       children: [
-        // Tabla con estilo mejorado
         Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -49,7 +48,6 @@ class _SensorTableState extends State<SensorTable> {
           ),
           child: Table(
             columnWidths: const {
-              // Todas las columnas tienen el mismo ancho que la columna "Fecha"
               0: FlexColumnWidth(1),
               1: FlexColumnWidth(1),
               2: FlexColumnWidth(1),
@@ -83,7 +81,6 @@ class _SensorTableState extends State<SensorTable> {
                           color: Color(0xFFEDDA6F))),
                 ],
               ),
-              // Filas de datos
               ...currentData.asMap().entries.map((entry) {
                 int index = entry.key;
                 Map<String, String> sensor = entry.value;
@@ -104,7 +101,6 @@ class _SensorTableState extends State<SensorTable> {
           ),
         ),
         const SizedBox(height: 16),
-        // Controles de paginación con diseño actualizado
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

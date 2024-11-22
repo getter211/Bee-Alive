@@ -3,8 +3,7 @@ import 'package:flutter_application_1/widgets/history_widgets/history_card.dart'
 import 'package:flutter_application_1/widgets/history_widgets/search_week_field.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-
-import '../../utils/sensor_data_utils.dart'; // Import for loading sensor data
+import '../../utils/sensor_data_utils.dart'; 
 
 class DataHistoryScreen extends StatefulWidget {
   const DataHistoryScreen({super.key});
@@ -16,14 +15,12 @@ class DataHistoryScreen extends StatefulWidget {
 class _DataHistoryScreenState extends State<DataHistoryScreen> {
   DateTime? selectedDate;
 
-  // Método para obtener el inicio de la semana para la fecha seleccionada
   DateTime getStartOfWeek(DateTime date) {
     int dayOfWeek = date.weekday;
     DateTime startOfWeek = date.subtract(Duration(days: dayOfWeek - 1));
     return DateTime(startOfWeek.year, startOfWeek.month, startOfWeek.day);
   }
 
-  // Filtrar los datos por la semana
   List<Map<String, String>> filterDataByWeek(
       List<Map<String, String>> sensorData, DateTime selectedDate) {
     DateTime startOfSelectedWeek = getStartOfWeek(selectedDate);
@@ -32,8 +29,6 @@ class _DataHistoryScreenState extends State<DataHistoryScreen> {
       String dateTime = data['date'] ?? '';
       DateTime parsedDate = DateFormat('dd/MM/yyyy HH:mm').parse(dateTime);
       DateTime startOfDataWeek = getStartOfWeek(parsedDate);
-
-      // Comparar solo la semana (inicio de la semana)
       return startOfDataWeek.isAtSameMomentAs(startOfSelectedWeek);
     }).toList();
   }
@@ -65,7 +60,7 @@ class _DataHistoryScreenState extends State<DataHistoryScreen> {
                 controller: TextEditingController(),
                 onDateSelected: (DateTime date) {
                   setState(() {
-                    selectedDate = date; // Actualizar la fecha seleccionada
+                    selectedDate = date; 
                   });
                 },
               ),
@@ -86,7 +81,7 @@ class _DataHistoryScreenState extends State<DataHistoryScreen> {
             Expanded(
               child: FutureBuilder<List<Map<String, String>>>(
                 future:
-                    loadSensorDataFromPreferences(), // Cargar los datos de los sensores
+                    loadSensorDataFromPreferences(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
@@ -102,30 +97,25 @@ class _DataHistoryScreenState extends State<DataHistoryScreen> {
 
                   List<Map<String, String>> sensorData = snapshot.data!;
                   List<Map<String, String>> filteredData = sensorData;
-
-                  // Si se seleccionó una fecha, filtrar los datos por la semana
                   if (selectedDate != null) {
                     filteredData = filterDataByWeek(sensorData, selectedDate!);
                   }
 
                   if (filteredData.isEmpty) {
-                    return Center(child: Text('No hay semana de monitorización.'));
+                    return const Center(child: Text('No hay semana de monitorización.'));
                   }
 
                   return ListView.builder(
                     itemCount: filteredData.length,
                     itemBuilder: (context, index) {
                       Map<String, String> data = filteredData[index];
-
-                      // Extraer fecha y hora
                       String dateTime = data['date'] ?? '';
                       DateTime parsedDate =
                           DateFormat('dd/MM/yyyy HH:mm').parse(dateTime);
                       String formattedDate =
-                          DateFormat('dd/MM/yyyy').format(parsedDate); // Solo fecha
+                          DateFormat('dd/MM/yyyy').format(parsedDate);
                       String formattedTime =
-                          DateFormat('HH:mm').format(parsedDate); // Solo hora
-
+                          DateFormat('HH:mm').format(parsedDate);
                       return Column(
                         children: [
                           HistorialCard(
