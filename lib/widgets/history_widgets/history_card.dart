@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pages/chart/charts_page.dart';
 
 class HistorialCard extends StatelessWidget {
   final String semana;
-  final String hora; 
+  final String hora;
   final IconData icono;
+  final List<Map<String, String>> dayData; // Datos del día para mostrar en el diálogo
 
   const HistorialCard({
     super.key,
     required this.semana,
     required this.hora,
     this.icono = Icons.remove_red_eye_outlined,
+    required this.dayData,
   });
 
   @override
@@ -34,11 +35,65 @@ class HistorialCard extends StatelessWidget {
           color: const Color(0xFFEDDA6F),
         ),
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const ChartScreen(),
-            ),
+          // Imprimir en consola el contenido de dayData
+          print('Contenido de dayData: $dayData');
+  
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                backgroundColor: const Color(0xFFB27C34),
+                title: Text(
+                  'Datos del día: $semana',
+                  style: const TextStyle(color: Color(0xFFEDDA6F)),
+                ),
+                content: SizedBox(
+                  width: double.maxFinite,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: dayData.length,
+                    itemBuilder: (context, index) {
+                      final data = dayData[index];
+                      // Obtener el valor de la fecha, temperatura y humedad
+                      String date = data['date'] ?? 'N/A';
+                      String temperature = data['temperature'] ?? 'N/A';
+                      String humidity = data['humidity'] ?? 'N/A';
+  
+                      return ListTile(
+                        title: Text(
+                          'Fecha: $date',
+                          style: const TextStyle(color: Color(0xFFEDDA6F)),
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Temperatura: $temperature°C',
+                              style: const TextStyle(color: Color(0xFFEDDA6F)),
+                            ),
+                            Text(
+                              'Humedad: $humidity%',
+                              style: const TextStyle(color: Color(0xFFEDDA6F)),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text(
+                      'Cerrar',
+                      style: TextStyle(color: Color(0xFFEDDA6F)),
+                    ),
+                  ),
+                ],
+              );
+            },
           );
         },
       ),

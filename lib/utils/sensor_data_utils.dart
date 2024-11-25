@@ -35,7 +35,6 @@ Future<List<Map<String, String>>> loadSensorDataFromFile() async {
           return <String, String>{};
         })
         .where((data) => data.isNotEmpty)
-        .take(12)
         .toList();
 
     return data;
