@@ -13,6 +13,12 @@ Future<List<Map<String, String>>> loadSensorDataFromFile() async {
     File file = File(result.files.single.path!);
     String fileContent = await file.readAsString();
 
+    // Normaliza el contenido del archivo
+    fileContent = fileContent.replaceAllMapped(
+      RegExp(r"(\d{2}/\d{2}/\d{4}) (\d):"),
+      (match) => "${match.group(1)} 0${match.group(2)}:",
+    );
+
     List<Map<String, String>> data = fileContent
         .split('\n')
         .map((line) {
