@@ -51,7 +51,7 @@ class DrawerHome extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const DataHistoryScreen(),
+                    builder: (context) => const DataHistoryScreen( ),
                   ),
                 );
               },

@@ -12,20 +12,13 @@ class ChartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Cálculo de medias por día
     final Map<String, Map<String, int>> dailyAverages = _calculateDailyAverages();
-
-    // Convierte fechas a días de la semana y crea jsonData
     final Map<String, Map<String, int>> dailyAveragesByDay = dailyAverages.map((date, values) {
       final dayName = _getDayOfWeek(date); // Convertir fecha a día
       return MapEntry(dayName, values);
     });
-
-    // Convierte dailyAveragesByDay a JSON string
     final jsonData = jsonEncode(dailyAveragesByDay);
     
-
-    // Obtener medias redondeadas
     final roundedAverages = _getRoundedAverages(dailyAverages);
 
     return Scaffold(
@@ -70,7 +63,7 @@ class ChartScreen extends StatelessWidget {
 
     // Agrupar datos por fecha
     for (var entry in weekData!) {
-      final date = (entry['date'] as String).split(' ')[0]; // Extraer solo la fecha
+      final date = (entry['date'] as String).split(' ')[0]; 
 
       // Manejar valores nulos
       final temperature = entry['temperature'] != null
@@ -94,8 +87,6 @@ class ChartScreen extends StatelessWidget {
 
       final averageTemperature = (totalTemperature / values.length).round();
       final averageHumidity = (totalHumidity / values.length).round();
-      print('Contenidozzz: $averageTemperature, $averageHumidity');
-
       dailyAverages[date] = {
         'temperature': averageTemperature,
         'humidity': averageHumidity,
@@ -105,7 +96,6 @@ class ChartScreen extends StatelessWidget {
 
     return dailyAverages;
   }
-// Método para obtener medias redondeadas
 Map<String, int> _getRoundedAverages(Map<String, Map<String, int>> dailyAverages) {
   if (dailyAverages.isEmpty) {
     return {'temperature': 0, 'humidity': 0}; // Evita división por cero si no hay datos

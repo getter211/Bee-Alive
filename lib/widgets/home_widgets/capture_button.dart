@@ -8,7 +8,7 @@ class CaptureButton extends StatelessWidget {
       {super.key,
       required this.onPressed,
       required double height,
-      required double width});
+      required double width,});
 
   @override
   Widget build(BuildContext context) {

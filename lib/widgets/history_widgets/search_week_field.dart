@@ -24,7 +24,7 @@ class _SearchWeekWidgetState extends State<SearchWeekWidget> {
         maxWidth: 400,
       ),
       child: TextField(
-        controller: widget.controller, 
+        controller: widget.controller,
         readOnly: true,
         decoration: InputDecoration(
           hintText: "¡Elije la fecha!",

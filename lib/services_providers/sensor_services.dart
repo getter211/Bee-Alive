@@ -14,7 +14,7 @@ class SensorServices {
 
         if (sensors.isNotEmpty) {
           return SensorData.fromJson(
-              sensors[0]); // Suponiendo que la respuesta es una lista
+              sensors[0]); 
         } else {
           throw Exception('No sensor data available');
         }

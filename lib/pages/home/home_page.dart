@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/widgets/home_widgets/capture_button.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../services_providers/notification_service.dart';
 import '../../utils/sensor_data_utils.dart';
 import '../../widgets/home_widgets/drawer_home.dart';
 import '../../widgets/home_widgets/header_section.dart';
@@ -10,84 +11,122 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   bool _isLoading = false;
+  bool _isDataSaved = false;
   List<Map<String, String>> _sensorData = [];
 
   Future<void> _loadSensorDataFromFile() async {
-    setState(() {
-      _isLoading = true;
-    });
-
+    setState(() => _isLoading = true);
     try {
-      final data = await loadSensorDataFromFile();
+      final data = await loadSensorDataFromFiles();
       setState(() {
         _sensorData = data;
+        _isDataSaved =
+            false; // Reset to false because we just imported new data
       });
+      notifyHive("");
     } catch (e) {
-      showDialog(
-        // ignore: use_build_context_synchronously
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Error'),
-          content: const Text(
-              'Hubo un problema al cargar los datos. Por favor, inténtalo de nuevo.'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Aceptar'),
-            ),
-          ],
-        ),
-      );
+      _showErrorDialog(
+          'Hubo un problema al cargar los datos. Por favor, inténtalo de nuevo.');
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      setState(() => _isLoading = false);
     }
   }
 
-  // Método para guardar los datos en SharedPreferences
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Se guardaron los datos'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Aceptar'),
+          ),
+        ],
+      ),
+    );
+  }
+
   Future<void> _showDeleteConfirmationDialog() async {
     final result = await showDialog<bool>(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('¿Quieres borrar los datos de tu colmena?',
-              style: TextStyle(color: Colors.brown)),
-          content: Text(
-            'Si borras los datos de tu colmena, no podrás verlos en la app.',
-            style: GoogleFonts.poppins(fontSize: 16, color: Colors.brown),
+      builder: (context) => AlertDialog(
+        title: const Text(
+          '¿Quieres borrar los datos de tu colmena?',
+          style: TextStyle(color: Colors.brown),
+        ),
+        content: Text(
+          'Si borras los datos de tu colmena, no podrás verlos en la app.',
+          style: GoogleFonts.poppins(fontSize: 16, color: Colors.brown),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child:
+                const Text('Cancelar', style: TextStyle(color: Colors.brown)),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(false);
-              },
-              child:
-                  const Text('Cancelar', style: TextStyle(color: Colors.brown)),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
-              child:
-                  const Text('Aceptar', style: TextStyle(color: Colors.brown)),
-            ),
-          ],
-        );
-      },
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Aceptar', style: TextStyle(color: Colors.brown)),
+          ),
+        ],
+      ),
     );
 
     if (result == true) {
       setState(() {
         _sensorData.clear();
+
+        _isDataSaved = false; // Reset the save state when data is deleted
+        notifyHive("si");
       });
     }
+  }
+
+  Future<void> _showSavedDataDialog() async {
+    List<Map<String, String>> savedData = await loadSensorDataFromPreferences();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Datos Guardados'),
+        content: Text(
+          savedData.isNotEmpty
+              ? 'Datos cargados: ${savedData.length} entradas.'
+              : 'No hay datos guardados.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Aceptar'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _saveData() async {
+    await saveSensorDataToPreferences(_sensorData);
+    setState(() {
+      _isDataSaved = true; // Mark data as saved
+    });
+    _showErrorDialog('Los datos de tu colmena se han guardado correctamente.');
+  }
+
+  void notifyHive(String userName) async {
+    bool hasPermission = await WebNotification.requestPermission();
+
+    if (hasPermission) {
+      WebNotification.showNotification(
+        'Has importado los datos de tu colmena. 🐝',
+        'Ya puedes verlos en la app.',
+      );
+    } else {}
   }
 
   @override
@@ -98,32 +137,40 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.delete_outlined, color: Colors.brown),
+            icon: const Icon(
+              Icons.delete_outlined,
+              color: Colors.brown,
+            ),
             onPressed: () {
-              if (_sensorData.isEmpty) {              
+              if (_sensorData.isEmpty) {
+                deleteSensorDataFromPreferences();
                 showDialog(
                   context: context,
-                  builder: (context) => AlertDialog(
-                    title: const Text('Sin datos',
-                        style: TextStyle(color: Colors.brown)),
-                    content: Text(
-                      'Aún no has importado los datos de tu colmena.',
-                      style: GoogleFonts.poppins(
-                        fontSize: 16,
-                        color: Colors.brown,
+                  builder: (context) => Dialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'Aún no has importado los datos de tu colmena.',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.brown,
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: const Text('Aceptar'),
+                          ),
+                        ],
                       ),
                     ),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text(
-                          'Aceptar',
-                          style: TextStyle(color: Colors.brown),
-                        ),
-                      ),
-                    ],
                   ),
                 );
               } else {
@@ -137,25 +184,22 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: const DrawerHome(),
       body: LayoutBuilder(
         builder: (context, constraints) {
-          double screenWidth = constraints.maxWidth;
-          double screenHeight = constraints.maxHeight;
-          double textSize = screenWidth * 0.04;
+          double textSize = constraints.maxWidth * 0.04;
           textSize = textSize > 20 ? 20 : textSize;
-          double buttonHeight = screenHeight * 0.04;
-          double buttonWidth = screenWidth * 0.4;
-          double spacing = screenHeight * 0.05;
+          double buttonWidth = constraints.maxWidth * 0.4;
+          double buttonHeight = constraints.maxHeight * 0.04;
+          double spacing = constraints.maxHeight * 0.05;
+
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(height: spacing),
                     if (_sensorData.isEmpty)
                       Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const HeaderSection(),
                           const SizedBox(height: 20),
@@ -184,81 +228,54 @@ class _HomeScreenState extends State<HomeScreen> {
                                   onPressed: _loadSensorDataFromFile,
                                 ),
                         ],
-                      ),
-                    if (_sensorData.isNotEmpty)
+                      )
+                    else
                       Column(
                         children: [
-                          SizedBox(height: spacing),
                           SensorTable(
-                            sensorData: _sensorData,
-                            textSize: textSize,
-                          ),
-                          const SizedBox(height: 70),
-                          ElevatedButton(
-                            onPressed: () async {
-                              await saveSensorDataToPreferences(_sensorData);
-                              showDialog(
-                                // ignore: use_build_context_synchronously
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: const Text('Datos guardados'),
-                                  content: const Text(
-                                      'Los datos de tu colmena se han guardado correctamente.'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                      child: const Text('Aceptar'),
-                                    ),
-                                  ],
+                              sensorData: _sensorData, textSize: textSize),
+                          const SizedBox(height: 50),
+                          if (!_isDataSaved) // Mostrar el botón solo si los datos no están guardados
+                            ElevatedButton(
+                              onPressed: _saveData,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFFB27C34),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
                                 ),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: const Color(0xFFEDDA6F),
-                              backgroundColor: const Color(0xFFB27C34),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 30),
                               ),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 30),
-                              elevation: 5,
-                              shadowColor: Colors.black.withOpacity(0.2),
-                              splashFactory: InkRipple.splashFactory,
-                            ),
-                            child: Text(
-                              'Guardar archivo',
-                              style: GoogleFonts.poppins(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFFEDDA6F),
+                              child: Text(
+                                'Guardar archivo',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: const Color(0xFFEDDA6F),
+                                ),
                               ),
                             ),
-                          ),
-                          ElevatedButton(
-                            onPressed: () async {
-                              // Cargar los datos guardados
-                              List<Map<String, String>> savedData =
-                                  await loadSensorDataFromPreferences();
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: const Text('Datos Guardados'),
-                                  content: Text(savedData.isNotEmpty
-                                      ? 'Datos cargados: ${savedData.length} entradas.'
-                                      : 'No hay datos guardados.'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                      child: const Text('Aceptar'),
-                                    ),
-                                  ],
+                          const SizedBox(height: 16),
+                          if (_isDataSaved) // Mostrar solo si los datos están guardados
+                            ElevatedButton(
+                              onPressed: _showSavedDataDialog,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFFB27C34),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
                                 ),
-                              );
-                            },
-                            child: Text('Ver datos guardados'),
-                          )
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 30),
+                              ),
+                              child: Text(
+                                'Ver datos guardados',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: const Color(0xFFEDDA6F),
+                                ),
+                              ),
+                            ),
                         ],
                       ),
                   ],

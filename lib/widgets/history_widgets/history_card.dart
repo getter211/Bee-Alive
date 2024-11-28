@@ -4,7 +4,7 @@ class HistorialCard extends StatelessWidget {
   final String semana;
   final String hora;
   final IconData icono;
-  final List<Map<String, String>> dayData; // Datos del día para mostrar en el diálogo
+  final List<Map<String, String>> dayData;
 
   const HistorialCard({
     super.key,
