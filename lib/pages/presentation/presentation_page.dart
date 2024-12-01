@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PresentationScreen extends StatelessWidget {
   const PresentationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Obtener el ancho y alto de la pantalla
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
@@ -14,59 +14,81 @@ class PresentationScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const Text(
+        title: Text(
           'Acerca de Bee Alive',
-          style: TextStyle(
-            fontSize: 20,
+          style: GoogleFonts.poppins(
+            fontSize: 22,
             color: Colors.brown,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.bold,
           ),
         ),
         iconTheme: const IconThemeData(color: Colors.brown),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                  height: screenHeight * 0.1), // Ajuste dinámico del espaciado
-              Image.asset(
-                'assets/images/logo.png',
-                width: screenWidth * 0.4, // Hace la imagen más responsive
-                height: screenHeight * 0.2, // Ajuste dinámico de la altura
-              ),
-              SizedBox(height: screenHeight * 0.05), // Espaciado más flexible
-              Text(
-                'Bee Alive',
-                style: TextStyle(
-                  fontSize: screenWidth * 0.08, // Hacer el texto más responsive
-                  fontWeight: FontWeight.bold,
-                  color: Colors.brown,
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: screenHeight * 0.05),
+                // Logo
+                Image.asset(
+                  'assets/images/logo.png',
+                  width: screenWidth * 0.6,
+                  height: screenHeight * 0.2,
                 ),
-              ),
-              SizedBox(height: screenHeight * 0.03), // Ajustar espaciado
-              Text(
-                'Bee Alive es una aplicación dedicada a la preservación de las abejas y la concientización sobre su importancia en nuestro ecosistema.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: screenWidth *
-                      0.05, // Hacer el texto más pequeño en pantallas pequeñas
-                  color: Colors.brown,
+                SizedBox(height: screenHeight * 0.03),
+                // Descripción
+                Text(
+                  'Bee Alive es una aplicación dedicada a la preservación de las abejas y la concientización sobre su importancia en nuestro ecosistema.',
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    color: Colors.brown[800],
+                    height: 1.5,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-              ),
-              SizedBox(height: screenHeight * 0.30),
-              Text(
-                'Copyright © Bee alive 2024  ',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: screenWidth *
-                      0.05, // Hacer el texto más pequeño en pantallas pequeñas
-                  color: Colors.brown,
+                SizedBox(height: screenHeight * 0.04),
+                // Contacto
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.email, color: Colors.brown),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Soporte@beealive.com',
+                          style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            color: Colors.brown[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: screenHeight * 0.02),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.phone, color: Colors.brown),
+                        const SizedBox(width: 8),
+                        Text(
+                          '+1 800 555 1234',
+                          style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            color: Colors.brown[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

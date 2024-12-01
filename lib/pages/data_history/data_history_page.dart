@@ -96,7 +96,7 @@ class _DataHistoryScreenState extends State<DataHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 253, 231, 207),
+      backgroundColor: const Color(0xFFFFF9DC),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: Text(
@@ -235,7 +235,7 @@ class _DataHistoryScreenState extends State<DataHistoryScreen> {
                         child: Container(
                           margin: const EdgeInsets.only(bottom: 16.0),
                           decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 253, 181, 99),
+                            color: const Color.fromARGB(255, 252, 252, 252),
                             borderRadius: BorderRadius.circular(12.0),
                             boxShadow: [
                               BoxShadow(
@@ -250,13 +250,27 @@ class _DataHistoryScreenState extends State<DataHistoryScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'Semana del ${DateFormat('dd/MM/yyyy').format(weekStart)}',
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.brown,
-                                  ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Semana del ${DateFormat('dd/MM/yyyy').format(weekStart)}',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.brown,
+                                      ),
+                                    ),
+                                    const Row(
+                                      children: [
+                                        Icon(
+                                          Icons.bar_chart_rounded,
+                                          color: Colors.brown,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                                 const SizedBox(height: 8.0),
                                 Column(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/widgets/home_widgets/capture_button.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../services_providers/notification_service.dart';
 import '../../utils/sensor_data_utils.dart';
 import '../../widgets/home_widgets/drawer_home.dart';
 import '../../widgets/home_widgets/header_section.dart';
@@ -28,7 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
         _isDataSaved =
             false; // Reset to false because we just imported new data
       });
-      notifyHive("");
     } catch (e) {
       _showErrorDialog(
           'Hubo un problema al cargar los datos. Por favor, inténtalo de nuevo.');
@@ -82,9 +80,9 @@ class _HomeScreenState extends State<HomeScreen> {
     if (result == true) {
       setState(() {
         _sensorData.clear();
-
+         deleteSensorDataFromPreferences();
         _isDataSaved = false; // Reset the save state when data is deleted
-        notifyHive("si");
+        // notifyHive("si");
       });
     }
   }
@@ -118,16 +116,16 @@ class _HomeScreenState extends State<HomeScreen> {
     _showErrorDialog('Los datos de tu colmena se han guardado correctamente.');
   }
 
-  void notifyHive(String userName) async {
-    bool hasPermission = await WebNotification.requestPermission();
+  // void notifyHive(String userName) async {
+  //   bool hasPermission = await WebNotification.requestPermission();
 
-    if (hasPermission) {
-      WebNotification.showNotification(
-        'Has importado los datos de tu colmena. 🐝',
-        'Ya puedes verlos en la app.',
-      );
-    } else {}
-  }
+  //   if (hasPermission) {
+  //     WebNotification.showNotification(
+  //       'Has importado los datos de tu colmena. 🐝',
+  //       'Ya puedes verlos en la app.',
+  //     );
+  //   } else {}
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -155,9 +153,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
+                          const Text(
                             'Aún no has importado los datos de tu colmena.',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: Colors.brown,

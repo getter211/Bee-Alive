@@ -5,20 +5,19 @@ import 'package:file_picker/file_picker.dart';
 import 'dart:io' show File;
 import 'package:flutter/foundation.dart';
 
-Future<List<Map<String, String>>> loadSensorDataFromFiles() async {
-  // Permite al usuario seleccionar múltiples archivos
+ Future<List<Map<String, String>>> loadSensorDataFromFiles() async {
   FilePickerResult? result = await FilePicker.platform.pickFiles(
     type: FileType.custom,
     allowedExtensions: ['txt'],
-    allowMultiple: true, // Permitir múltiples archivos
+    allowMultiple: true,
   );
 
-  List<Map<String, String>> allData = []; // Lista para almacenar todos los datos de los archivos
+  List<Map<String, String>> allData = [];
 
   if (result != null) {
     for (var file in result.files) {
       String fileContent;
-      
+
       if (kIsWeb) {
         Uint8List? fileBytes = file.bytes;
         if (fileBytes != null) {
@@ -35,13 +34,11 @@ Future<List<Map<String, String>>> loadSensorDataFromFiles() async {
           throw Exception("No se pudo leer el archivo en plataformas móviles.");
         }
       }
-
       fileContent = fileContent.replaceAllMapped(
-        RegExp(r"(\d{2}/\d{2}/\d{4}) (\d):"),
+        RegExp(r"(\d{1,2}/\d{2}/\d{4}) (\d):"),
         (match) => "${match.group(1)} 0${match.group(2)}:",
       );
 
-      // Procesar el contenido del archivo
       List<Map<String, String>> data = fileContent
           .split('\n')
           .map((line) {
@@ -49,7 +46,7 @@ Future<List<Map<String, String>>> loadSensorDataFromFiles() async {
                 RegExp(r"Temperatura:\s*(\d+)\s*°C").firstMatch(line);
             final humidityMatch =
                 RegExp(r"Humedad:\s*(\d+)\s*%").firstMatch(line);
-            final dateMatch = RegExp(r"(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})")
+            final dateMatch = RegExp(r"(\d{1,2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})")
                 .firstMatch(line);
 
             if (temperatureMatch != null &&
@@ -66,16 +63,13 @@ Future<List<Map<String, String>>> loadSensorDataFromFiles() async {
           .where((data) => data.isNotEmpty)
           .toList();
 
-      // Agregar los datos procesados de este archivo a la lista general
       allData.addAll(data);
     }
-
-    return allData; // Retorna todos los datos combinados
+    return allData;
   }
 
-  return []; // Retorna una lista vacía si no se seleccionaron archivos
+  return [];
 }
-
 
 
 Future<void> saveSensorDataToPreferences(List<Map<String, String>> data) async {

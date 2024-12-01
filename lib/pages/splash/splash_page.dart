@@ -44,7 +44,7 @@ class _SplashscreenState extends State<Splashscreen> {
                 width: 250,
               ),
               Text(
-                'Bee-Alive',
+                'Bee Alive',
                 style: GoogleFonts.libreBaskerville(
                   fontSize: 20,
                   color: Colors.brown,
