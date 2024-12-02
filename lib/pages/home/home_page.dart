@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/widgets/home_widgets/capture_button.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         _sensorData = data;
         _isDataSaved =
-            false; // Reset to false because we just imported new data
+            false; 
       });
     } catch (e) {
       _showErrorDialog(
@@ -83,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         _sensorData.clear();
          deleteSensorDataFromPreferences();
-        _isDataSaved = false; // Reset the save state when data is deleted
+        _isDataSaved = false;
       });
     }
   }
@@ -112,16 +114,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _saveData() async {
     await saveSensorDataToPreferences(_sensorData);
     setState(() {
-      _isDataSaved = true; // Mark data as saved
+      _isDataSaved = true; 
     });
     
-    // Mostrar la notificación
     NotificationService().showNotification(
       title: '¡Datos guardados!',
       body: 'Los datos de tu colmena se han guardado correctamente.',
     );
 
-    // Mostrar un diálogo de éxito (opcional)
     _showErrorDialog('Los datos de tu colmena se han guardado correctamente.');
   }
 
@@ -231,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           SensorTable(
                               sensorData: _sensorData, textSize: textSize),
                           const SizedBox(height: 50),
-                          if (!_isDataSaved) // Mostrar el botón solo si los datos no están guardados
+                          if (!_isDataSaved) 
                             ElevatedButton(
                               onPressed: _saveData,
                               style: ElevatedButton.styleFrom(
@@ -252,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                           const SizedBox(height: 16),
-                          if (_isDataSaved) // Mostrar solo si los datos están guardados
+                          if (_isDataSaved) 
                             ElevatedButton(
                               onPressed: _showSavedDataDialog,
                               style: ElevatedButton.styleFrom(
