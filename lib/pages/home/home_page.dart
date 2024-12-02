@@ -8,7 +8,7 @@ import '../../utils/sensor_data_utils.dart';
 import '../../widgets/home_widgets/drawer_home.dart';
 import '../../widgets/home_widgets/header_section.dart';
 import '../../widgets/sensor_table.dart';
- // Asegúrate de importar el NotificationService
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -185,7 +185,6 @@ class _HomeScreenState extends State<HomeScreen> {
           double buttonWidth = constraints.maxWidth * 0.4;
           double buttonHeight = constraints.maxHeight * 0.04;
           double spacing = constraints.maxHeight * 0.05;
-
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(20.0),

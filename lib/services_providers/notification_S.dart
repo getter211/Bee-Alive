@@ -5,10 +5,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 class NotificationService {
   final FlutterLocalNotificationsPlugin notificationsPlugin =
       FlutterLocalNotificationsPlugin();
-
-  // Inicializa la notificación
   Future<void> initNotification() async {
-    // Solicita permiso para las notificaciones en Android
     await notificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
@@ -22,50 +19,42 @@ class NotificationService {
       android: androidInitializationSettings,
     );
 
-    // Inicializa el plugin
     await notificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse:
-          (NotificationResponse notificationResponse) async {
-        // Manejar la respuesta de la notificación, si es necesario
-      },
+          (NotificationResponse notificationResponse) async {},
     );
 
-    // Crear el canal de notificación en Android
     await _createNotificationChannel();
   }
 
-  // Crear un canal de notificación para Android
   Future<void> _createNotificationChannel() async {
     const AndroidNotificationChannel channel = AndroidNotificationChannel(
-      'channelId', // ID del canal
-      'channelName', // Nombre del canal
-      description: 'Your channel description', // Descripción del canal
-      importance: Importance.max, // Importancia máxima
+      'channelId',
+      'channelName',
+      description: 'Your channel description',
+      importance: Importance.max,
     );
 
-    // Registrar el canal
     await notificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
   }
 
-  // Devuelve los detalles de la notificación
   NotificationDetails notificationDetails() {
     return const NotificationDetails(
       android: AndroidNotificationDetails(
-        'channelId', // ID del canal
-        'channelName', // Nombre del canal
-        channelDescription: 'Your channel description', // Descripción del canal
-        importance: Importance.max, // Importancia máxima
-        priority: Priority.high, // Prioridad alta
-        ticker: 'ticker', // Ticker (opcional)
+        'channelId',
+        'channelName',
+        channelDescription: 'Your channel description',
+        importance: Importance.max,
+        priority: Priority.high,
+        ticker: 'ticker',
       ),
     );
   }
 
-  // Muestra la notificación
   Future<void> showNotification({
     int id = 0,
     String? title,
@@ -74,11 +63,10 @@ class NotificationService {
   }) async {
     return notificationsPlugin.show(
       id,
-      title ?? 'Título predeterminado', // Valor predeterminado si title es null
-      body ??
-          'Cuerpo de la notificación', // Valor predeterminado si body es null
+      title ?? 'Título predeterminado',
+      body ?? 'Cuerpo de la notificación',
       notificationDetails(),
-      payload: payLoad, // Payload opcional
+      payload: payLoad,
     );
   }
 }

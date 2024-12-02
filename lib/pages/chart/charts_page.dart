@@ -27,7 +27,6 @@ class _ChartScreenState extends State<ChartScreen> {
   }
 
   Future<void> _loadData() async {
-    // Simula un tiempo de carga para tus datos
     await Future.delayed(const Duration(seconds: 2));
 
     final Map<String, Map<String, int>> averages = _calculateDailyAverages();
@@ -51,14 +50,14 @@ class _ChartScreenState extends State<ChartScreen> {
           ),
         ),
         body: const Center(
-          child: CircularProgressIndicator(), // Indicador de carga
+          child: CircularProgressIndicator(), 
         ),
       );
     }
 
     final Map<String, Map<String, int>> dailyAveragesByDay =
         dailyAverages!.map((date, values) {
-      final dayName = _getDayOfWeek(date); // Convertir fecha a día
+      final dayName = _getDayOfWeek(date);
       return MapEntry(dayName, values);
     });
     final jsonData = jsonEncode(dailyAveragesByDay);
@@ -82,7 +81,6 @@ class _ChartScreenState extends State<ChartScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Status Widget
               _buildCard(
                 child: BeeStatusWidget(
                   temperature: roundedAverages['temperature']!,
@@ -91,13 +89,10 @@ class _ChartScreenState extends State<ChartScreen> {
               ),
               const SizedBox(height: 20),
 
-              // Bar Chart Widget
               _buildCard(
                 child: BarChartWidget(jsonData: jsonData),
               ),
               const SizedBox(height: 20),
-
-              // Pie Chart Widget
               _buildCard(
                 child: PieChartWidget(jsonData: jsonData),
               ),

@@ -8,7 +8,6 @@ class PresentationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: const Color(0xFFFDF2CF),
       appBar: AppBar(
@@ -34,14 +33,12 @@ class PresentationScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: screenHeight * 0.05),
-                // Logo
                 Image.asset(
                   'assets/images/logo.png',
                   width: screenWidth * 0.6,
                   height: screenHeight * 0.2,
                 ),
                 SizedBox(height: screenHeight * 0.03),
-                // Descripción
                 Text(
                   'Bee Alive es una aplicación dedicada a la preservación de las abejas y la concientización sobre su importancia en nuestro ecosistema.',
                   style: GoogleFonts.poppins(
@@ -52,7 +49,6 @@ class PresentationScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: screenHeight * 0.04),
-                // Contacto
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [

@@ -72,7 +72,6 @@ class _DataHistoryScreenState extends State<DataHistoryScreen> {
     }).toList();
   }
 
-  /// Agrupa los datos por semana
   Map<DateTime, List<Map<String, String>>> groupDataByWeek(
       List<Map<String, String>> sensorData) {
     Map<DateTime, List<Map<String, String>>> dataByWeek = {};
@@ -176,7 +175,6 @@ class _DataHistoryScreenState extends State<DataHistoryScreen> {
                       );
                     }
 
-                    // Filtrar solo la semana seleccionada
                     dataByWeek = {
                       startOfSelectedWeek: dataByWeek[startOfSelectedWeek]!,
                     };
@@ -186,7 +184,6 @@ class _DataHistoryScreenState extends State<DataHistoryScreen> {
                     return const Center(
                         child: Text('No hay semanas disponibles.'));
                   }
-
                   return ListView(
                     children: dataByWeek.entries.map((entry) {
                       DateTime weekStart = entry.key;
@@ -209,8 +206,6 @@ class _DataHistoryScreenState extends State<DataHistoryScreen> {
                           dayData: dayData,
                         );
                       }).toList();
-
-                      // Envolver las tarjetas de una semana en un contenedor clicable
                       return GestureDetector(
                         onTap: () {
                           List<Map<String, String>> weekData =
