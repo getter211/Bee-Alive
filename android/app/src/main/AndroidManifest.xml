@@ -1,13 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Permiso para acceder a Internet -->
-    <uses-permission
-        android:name="android.permission.INTERNET"/>
-    <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission
-        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+    <!-- Permisos necesarios para tu aplicación -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <application
         android:label="Bee Alive"
         android:name="${applicationName}"
@@ -40,10 +38,8 @@
             android:name="flutterEmbedding"
             android:value="2"/>
     </application>
-    <!-- Requerido para consultar actividades que puedan procesar texto, ver:
-         https://developer.android.com/training/package-visibility y
-         https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
-    -->
+
+    <!-- Requerido para consultar actividades que puedan procesar texto -->
     <queries>
         <intent>
             <action

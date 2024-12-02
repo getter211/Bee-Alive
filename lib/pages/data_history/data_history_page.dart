@@ -121,18 +121,10 @@ class _DataHistoryScreenState extends State<DataHistoryScreen> {
                 onDateSelected: (DateTime date) {
                   setState(() {
                     selectedDate = date;
-                    if (date.weekday != DateTime.monday) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('La semana debe comenzar en lunes.'),
-                          backgroundColor: Colors.red,
-                        ),
-                      );
-                      selectedDate = getStartOfWeek(date);
-                    }
                   });
                 },
               ),
+              
             ),
             const SizedBox(height: 20),
             Text(
