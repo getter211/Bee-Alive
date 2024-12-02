@@ -118,10 +118,9 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     
     NotificationService().showNotification(
-      title: '¡Datos guardados!',
-      body: 'Los datos de tu colmena se han guardado correctamente.',
+      title: '¡Datos guardados 🐝!',
+      body: 'Ya puedes consultar los datos a traves del historial de monitorización.',
     );
-
     _showErrorDialog('Los datos de tu colmena se han guardado correctamente.');
   }
 
@@ -139,7 +138,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             onPressed: () {
               if (_sensorData.isEmpty) {
-                deleteSensorDataFromPreferences();
                 showDialog(
                   context: context,
                   builder: (context) => Dialog(
