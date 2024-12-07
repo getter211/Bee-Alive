@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class PieChartWidget extends StatelessWidget {
-  final String jsonData; // Recibe jsonData como un String
+  final String jsonData; 
 
   const PieChartWidget({super.key, required this.jsonData});
 
   @override
   Widget build(BuildContext context) {
-    // Decodifica el JSON para convertirlo en un mapa
+
     final Map<String, dynamic> data = _parseJsonData(jsonData);
 
     return Column(
@@ -20,7 +20,7 @@ class PieChartWidget extends StatelessWidget {
             PieChartData(
               sectionsSpace: 4,
               centerSpaceRadius: 40,
-              sections: _getPieChartSections(data), // Pasa los datos a la función de secciones
+              sections: _getPieChartSections(data), 
             ),
           ),
         ),
@@ -29,14 +29,14 @@ class PieChartWidget extends StatelessWidget {
     );
   }
 
-  // Función para parsear el jsonData a un mapa de días y temperaturas
+
   Map<String, dynamic> _parseJsonData(String jsonData) {
-    // Decodificar el JSON, que ahora es un mapa
+
     final decodedData = jsonDecode(jsonData);
     return decodedData as Map<String, dynamic>;
   }
 
-  // Crear las secciones de la gráfica con los datos
+
   List<PieChartSectionData> _getPieChartSections(Map<String, dynamic> data) {
     final List<PieChartSectionData> sections = [];
     final List<Color> colors = [
@@ -47,18 +47,18 @@ class PieChartWidget extends StatelessWidget {
 
     int colorIndex = 0;
 
-    // Iterar sobre los datos y crear una sección por cada día con temperatura
-    data.forEach((dayName, value) {
-      final temperature = value['temperature']; // Ahora directamente usas el valor numérico
-      final tempValue = temperature is int ? temperature : 0; // Verifica que sea int, usa 0 si no lo es
 
-      if (tempValue != 0) { // Solo agregar si la temperatura es válida
+    data.forEach((dayName, value) {
+      final temperature = value['temperature']; 
+      final tempValue = temperature is int ? temperature : 0;
+
+      if (tempValue != 0) { 
         sections.add(PieChartSectionData(
           color: colors[colorIndex++],
           value: tempValue.toDouble(),
           title: dayName,
           radius: 50,
-          titleStyle: TextStyle(
+          titleStyle: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -70,7 +70,7 @@ class PieChartWidget extends StatelessWidget {
     return sections;
   }
 
-  // Construir la leyenda del gráfico
+
   Widget _buildLegend(Map<String, dynamic> data) {
     final List<Color> colors = [
       Colors.brown.shade300, Colors.brown.shade400, Colors.brown.shade500,
@@ -94,8 +94,8 @@ class PieChartWidget extends StatelessWidget {
                 height: 16,
                 color: colors[index],
               ),
-              SizedBox(width: 8),
-              Text('$dayName: $temperature°C'), // Mostrar temperatura directamente
+              const SizedBox(width: 8),
+              Text('$dayName: $temperature°C'),
             ],
           ),
         );

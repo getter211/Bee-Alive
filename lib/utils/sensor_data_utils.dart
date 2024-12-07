@@ -5,7 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'dart:io' show File;
 import 'package:flutter/foundation.dart';
 
- Future<List<Map<String, String>>> loadSensorDataFromFiles() async {
+Future<List<Map<String, String>>> loadSensorDataFromFiles() async {
   FilePickerResult? result = await FilePicker.platform.pickFiles(
     type: FileType.custom,
     allowedExtensions: ['txt'],
@@ -34,13 +34,19 @@ import 'package:flutter/foundation.dart';
           throw Exception("No se pudo leer el archivo en plataformas móviles.");
         }
       }
+
       fileContent = fileContent.replaceAllMapped(
-        RegExp(r"(\d{1,2}/\d{2}/\d{4}) (\d):"),
-        (match) => "${match.group(1)} 0${match.group(2)}:",
+        RegExp(
+            r"(\d{1,2}/\d{2}/\d{4}) (\d{1,2}):(\d{1,2}):(\d{1,2})"), 
+        (match) =>
+            "${match.group(1)} ${match.group(2)!.padLeft(2, '0')}:${match.group(3)!.padLeft(2, '0')}:${match.group(4)!.padLeft(2, '0')}",
       );
 
       List<Map<String, String>> data = fileContent
           .split('\n')
+          .map((line) =>
+              line.trim())
+          .where((line) => line.isNotEmpty)
           .map((line) {
             final temperatureMatch =
                 RegExp(r"Temperatura:\s*(\d+)\s*°C").firstMatch(line);
@@ -70,7 +76,6 @@ import 'package:flutter/foundation.dart';
 
   return [];
 }
-
 
 Future<void> saveSensorDataToPreferences(List<Map<String, String>> data) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();

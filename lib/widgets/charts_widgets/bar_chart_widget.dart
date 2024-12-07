@@ -1,4 +1,6 @@
-import 'dart:convert'; // Necesario para decodificar jsonData
+// ignore_for_file: prefer_const_constructors
+
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -28,7 +30,7 @@ class BarChartWidget extends StatelessWidget {
                 showTitles: true,
                 getTitlesWidget: (value, meta) {
                   if (value.toInt() >= 0 && value.toInt() < days.length) {
-                    final shortDay = days[value.toInt()].substring(0, 3); // Solo las primeras 3 letras
+                    final shortDay = days[value.toInt()].substring(0, 3);
                     return Text(shortDay);
                   }
                   return const Text('');

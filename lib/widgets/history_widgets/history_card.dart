@@ -35,9 +35,6 @@ class HistorialCard extends StatelessWidget {
           color: const Color(0xFFEDDA6F),
         ),
         onTap: () {
-          // Imprimir en consola el contenido de dayData
-          print('Contenido de dayData: $dayData');
-  
           showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -54,11 +51,9 @@ class HistorialCard extends StatelessWidget {
                     itemCount: dayData.length,
                     itemBuilder: (context, index) {
                       final data = dayData[index];
-                      // Obtener el valor de la fecha, temperatura y humedad
                       String date = data['date'] ?? 'N/A';
                       String temperature = data['temperature'] ?? 'N/A';
                       String humidity = data['humidity'] ?? 'N/A';
-  
                       return ListTile(
                         title: Text(
                           'Fecha: $date',
